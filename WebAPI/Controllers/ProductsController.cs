@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Bussiness.Abstract;
 using Bussiness.Concrete;
@@ -28,11 +29,11 @@ namespace WebAPI.Controllers
 
         [HttpGet("getall")]
         public IActionResult GetAll()
-        {
+        { 
             //Dependency chain
-            
+
             var result = _productService.GetAll();
-            if(result.Success)
+            if (result.Success)
             {
                 return Ok(result);
             }
@@ -57,13 +58,40 @@ namespace WebAPI.Controllers
             var result = _productService.Add(product);
             if (result.Success)
             {
-                return Ok();
+                return Ok(result);
             }
             else
             {
                 return BadRequest(result);
             }
         }
-    }
-}
+            [HttpGet("getbycategory")]
+            public IActionResult GetByCategory(int categoryId)
+            {
+                var result = _productService.GetAllByCategoryId(categoryId);
+                if (result.Success)
+                {
+                    return Ok(result);
+                }
+                else
+                {
+                    return BadRequest(result);
+                }
+            }
+        [HttpGet("getproductdetails")]
+        public IActionResult GetProductDetails(int categoryId)
+        {
+            var result = _productService.GetProductDetails();
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            else
+            {
+                return BadRequest(result);
+            }
+        }
 
+
+    }
+    }
